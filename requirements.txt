@@ -1,0 +1,8 @@
+# Server
+Flask==3.0.2
+gunicorn==21.2.0
+Werkzeug==3.0.1
+gevent==23.9.1
+
+# Production dependencies
+python-dotenv==1.0.1 
