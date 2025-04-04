@@ -2,24 +2,15 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask, render_template
-import sys
 import os
 
 app = Flask(__name__)
-app.debug = True
-
-print("Current working directory:", os.getcwd())
-print("Python path:", sys.path)
-print("Flask app instance path:", app.instance_path)
+app.debug = False  # Disable debug mode in production
 
 @app.route('/')
 def home():
-    try:
-        return render_template('landing.html')
-    except Exception as e:
-        print("Error rendering template:", str(e))
-        return str(e)
+    return render_template('landing.html')
 
 if __name__ == '__main__':
-    print("Starting Flask application...")
-    app.run(debug=True, port=5000) 
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port) 
