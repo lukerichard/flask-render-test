@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory
 from flask_pymongo import PyMongo
 from werkzeug.security import generate_password_hash, check_password_hash
 from bson import ObjectId
@@ -11,7 +11,8 @@ from models import User, Property, Lease
 from config import config
 
 # Initialize Flask app
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='', static_folder='static')
+app.debug = True
 
 # Load configuration
 env = os.getenv('FLASK_ENV', 'development')
@@ -54,6 +55,10 @@ def test_db():
 @app.route('/')
 def home():
     return render_template('landing.html')
+
+@app.route('/static/<path:path>')
+def send_static(path):
+    return send_from_directory('static', path)
 
 # User routes
 @app.route('/api/users', methods=['POST'])
